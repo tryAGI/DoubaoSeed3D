@@ -1,0 +1,177 @@
+openapi: 3.0.3
+info:
+  title: Doubao Seed3D API
+  description: |
+    Volcano Ark task API for ByteDance Doubao Seed3D generation.
+
+    This OpenAPI document is manually maintained from public ByteDance Seed3D
+    launch material and the open SketchKit Doubao integration because Volcano
+    Ark does not publish a downloadable OpenAPI document for this model family.
+  version: "1.0.0"
+servers:
+  - url: https://ark.cn-beijing.volces.com/api/v3
+security:
+  - BearerAuth: []
+tags:
+  - name: tasks
+paths:
+  /contents/generations/tasks:
+    post:
+      operationId: createGenerationTask
+      summary: Create a Seed3D generation task
+      description: |
+        Submit an asynchronous Doubao Seed3D generation task. Image input is
+        represented as a content item with type `input_image` and an `image_url`.
+      tags: [tasks]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGenerationTaskRequest"
+      responses:
+        "200":
+          description: Task submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerationTaskResponse"
+  /contents/generations/tasks/{task_id}:
+    get:
+      operationId: getGenerationTask
+      summary: Get a Seed3D generation task
+      tags: [tasks]
+      parameters:
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Task status and outputs
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenerationTaskResponse"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    CreateGenerationTaskRequest:
+      type: object
+      additionalProperties: true
+      required: [model, content]
+      properties:
+        model:
+          type: string
+          default: doubao-seed3d-1-0-250928
+          description: Doubao Seed3D model identifier provisioned in Volcano Ark.
+        content:
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/GenerationContentItem"
+        subdivision_level:
+          type: string
+          enum: [low, medium, high]
+          description: Output mesh subdivision level.
+        file_format:
+          type: string
+          enum: [glb, obj, usdz, fbx, stl]
+          default: glb
+          description: Requested 3D model file format.
+        seed:
+          type: integer
+          format: int64
+          nullable: true
+    GenerationContentItem:
+      type: object
+      additionalProperties: true
+      required: [type]
+      properties:
+        type:
+          type: string
+          description: Content item type, such as input_image or text.
+        image_url:
+          type: string
+          format: uri
+          nullable: true
+        text:
+          type: string
+          nullable: true
+    GenerationTaskResponse:
+      type: object
+      additionalProperties: true
+      properties:
+        id:
+          type: string
+          nullable: true
+        task_id:
+          type: string
+          nullable: true
+        model:
+          type: string
+          nullable: true
+        status:
+          type: string
+          nullable: true
+        created_at:
+          type: integer
+          format: int64
+          nullable: true
+        updated_at:
+          type: integer
+          format: int64
+          nullable: true
+        output:
+          $ref: "#/components/schemas/GenerationOutput"
+        content:
+          type: array
+          nullable: true
+          items:
+            $ref: "#/components/schemas/GenerationContentItem"
+        usage:
+          $ref: "#/components/schemas/Usage"
+        error:
+          $ref: "#/components/schemas/ApiError"
+    GenerationOutput:
+      type: object
+      additionalProperties: true
+      properties:
+        url:
+          type: string
+          format: uri
+          nullable: true
+        file_url:
+          type: string
+          format: uri
+          nullable: true
+        model_url:
+          type: string
+          format: uri
+          nullable: true
+        image_url:
+          type: string
+          format: uri
+          nullable: true
+    Usage:
+      type: object
+      additionalProperties: true
+      properties:
+        total_tokens:
+          type: integer
+          format: int64
+          nullable: true
+    ApiError:
+      type: object
+      additionalProperties: true
+      properties:
+        code:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
