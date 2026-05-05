@@ -53,6 +53,26 @@ namespace DoubaoSeed3D
             global::DoubaoSeed3D.AutoSDKRequestOptions? requestOptions = default,
             global::System.Threading.CancellationToken cancellationToken = default)
         {
+            var __response = await GetGenerationTaskAsResponseAsync(
+                taskId: taskId,
+                requestOptions: requestOptions,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
+
+            return __response.Body;
+        }
+        /// <summary>
+        /// Get a Seed3D generation task
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::DoubaoSeed3D.ApiException"></exception>
+        public async global::System.Threading.Tasks.Task<global::DoubaoSeed3D.AutoSDKHttpResponse<global::DoubaoSeed3D.GenerationTaskResponse>> GetGenerationTaskAsResponseAsync(
+            string taskId,
+            global::DoubaoSeed3D.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default)
+        {
             PrepareArguments(
                 client: HttpClient);
             PrepareGetGenerationTaskArguments(
@@ -81,6 +101,7 @@ namespace DoubaoSeed3D
 
             global::System.Net.Http.HttpRequestMessage __CreateHttpRequest()
             {
+
                             var __pathBuilder = new global::DoubaoSeed3D.PathBuilder(
                                 path: $"/contents/generations/tasks/{taskId}",
                                 baseUri: HttpClient.BaseAddress);
@@ -154,6 +175,8 @@ namespace DoubaoSeed3D
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                     try
                     {
@@ -164,6 +187,11 @@ namespace DoubaoSeed3D
                     }
                     catch (global::System.Net.Http.HttpRequestException __exception)
                     {
+                        var __retryDelay = global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: null,
+                            attempt: __attempt);
                         var __willRetry = __attempt < __maxAttempts && !__effectiveCancellationToken.IsCancellationRequested;
                         await global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
@@ -181,6 +209,8 @@ namespace DoubaoSeed3D
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: __willRetry,
+                                retryDelay: __willRetry ? __retryDelay : (global::System.TimeSpan?)null,
+                                retryReason: "exception",
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         if (!__willRetry)
                         {
@@ -190,8 +220,7 @@ namespace DoubaoSeed3D
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -200,6 +229,11 @@ namespace DoubaoSeed3D
                         __attempt < __maxAttempts &&
                         global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.ShouldRetryStatusCode(__response.StatusCode))
                     {
+                        var __retryDelay = global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.GetRetryDelay(
+                            clientOptions: Options,
+                            requestOptions: requestOptions,
+                            response: __response,
+                            attempt: __attempt);
                         await global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.OnAfterErrorAsync(
                             clientOptions: Options,
                             context: global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.CreateHookContext(
@@ -216,14 +250,15 @@ namespace DoubaoSeed3D
                                 attempt: __attempt,
                                 maxAttempts: __maxAttempts,
                                 willRetry: true,
+                                retryDelay: __retryDelay,
+                                retryReason: "status:" + ((int)__response.StatusCode).ToString(global::System.Globalization.CultureInfo.InvariantCulture),
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                         __response.Dispose();
                         __response = null;
                         __httpRequest.Dispose();
                         __httpRequest = null;
                         await global::DoubaoSeed3D.AutoSDKRequestOptionsSupport.DelayBeforeRetryAsync(
-                            clientOptions: Options,
-                            requestOptions: requestOptions,
+                            retryDelay: __retryDelay,
                             cancellationToken: __effectiveCancellationToken).ConfigureAwait(false);
                         continue;
                     }
@@ -263,6 +298,8 @@ namespace DoubaoSeed3D
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
                 else
@@ -283,6 +320,8 @@ namespace DoubaoSeed3D
                                 attempt: __attemptNumber,
                                 maxAttempts: __maxAttempts,
                                 willRetry: false,
+                                retryDelay: null,
+                                retryReason: global::System.String.Empty,
                                 cancellationToken: __effectiveCancellationToken)).ConfigureAwait(false);
                 }
 
@@ -307,9 +346,13 @@ namespace DoubaoSeed3D
                                 {
                                     __response.EnsureSuccessStatusCode();
 
-                                    return
-                                        global::DoubaoSeed3D.GenerationTaskResponse.FromJson(__content, JsonSerializerContext) ??
+                                    var __value = global::DoubaoSeed3D.GenerationTaskResponse.FromJson(__content, JsonSerializerContext) ??
                                         throw new global::System.InvalidOperationException($"Response deserialization failed for \"{__content}\" ");
+                                    return new global::DoubaoSeed3D.AutoSDKHttpResponse<global::DoubaoSeed3D.GenerationTaskResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::DoubaoSeed3D.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {
@@ -337,9 +380,13 @@ namespace DoubaoSeed3D
                 #endif
                                     ).ConfigureAwait(false);
 
-                                    return
-                                        await global::DoubaoSeed3D.GenerationTaskResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
+                                    var __value = await global::DoubaoSeed3D.GenerationTaskResponse.FromJsonStreamAsync(__content, JsonSerializerContext).ConfigureAwait(false) ??
                                         throw new global::System.InvalidOperationException("Response deserialization failed.");
+                                    return new global::DoubaoSeed3D.AutoSDKHttpResponse<global::DoubaoSeed3D.GenerationTaskResponse>(
+                                        statusCode: __response.StatusCode,
+                                        headers: global::DoubaoSeed3D.AutoSDKHttpResponse.CreateHeaders(__response),
+                                        requestUri: __response.RequestMessage?.RequestUri,
+                                        body: __value);
                                 }
                                 catch (global::System.Exception __ex)
                                 {
