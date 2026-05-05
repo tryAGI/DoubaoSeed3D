@@ -23,6 +23,20 @@ namespace DoubaoSeed3D
         /// Submit an asynchronous Doubao Seed3D generation task. Image input is<br/>
         /// represented as a content item with type `input_image` and an `image_url`.
         /// </summary>
+        /// <param name="request"></param>
+        /// <param name="requestOptions">Per-request overrides such as headers, query parameters, timeout, retries, and response buffering.</param>
+        /// <param name="cancellationToken">The token to cancel the operation with</param>
+        /// <exception cref="global::DoubaoSeed3D.ApiException"></exception>
+        global::System.Threading.Tasks.Task<global::DoubaoSeed3D.AutoSDKHttpResponse<global::DoubaoSeed3D.GenerationTaskResponse>> CreateGenerationTaskAsResponseAsync(
+
+            global::DoubaoSeed3D.CreateGenerationTaskRequest request,
+            global::DoubaoSeed3D.AutoSDKRequestOptions? requestOptions = default,
+            global::System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Create a Seed3D generation task<br/>
+        /// Submit an asynchronous Doubao Seed3D generation task. Image input is<br/>
+        /// represented as a content item with type `input_image` and an `image_url`.
+        /// </summary>
         /// <param name="model">
         /// Doubao Seed3D model identifier provisioned in Volcano Ark.<br/>
         /// Default Value: doubao-seed3d-1-0-250928
