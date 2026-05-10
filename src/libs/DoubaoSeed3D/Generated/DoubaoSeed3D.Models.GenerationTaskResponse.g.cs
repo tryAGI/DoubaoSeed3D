@@ -120,5 +120,6 @@ namespace DoubaoSeed3D
         public GenerationTaskResponse()
         {
         }
+
     }
 }

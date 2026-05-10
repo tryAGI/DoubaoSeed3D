@@ -90,5 +90,6 @@ namespace DoubaoSeed3D
         public CreateGenerationTaskRequest()
         {
         }
+
     }
 }
