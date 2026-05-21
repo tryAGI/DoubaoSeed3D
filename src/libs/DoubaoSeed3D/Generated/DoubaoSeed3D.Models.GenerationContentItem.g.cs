@@ -60,5 +60,6 @@ namespace DoubaoSeed3D
         public GenerationContentItem()
         {
         }
+
     }
 }
