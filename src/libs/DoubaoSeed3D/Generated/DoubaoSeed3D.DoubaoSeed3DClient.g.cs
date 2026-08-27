@@ -14,7 +14,7 @@ namespace DoubaoSeed3D
     public sealed partial class DoubaoSeed3DClient : global::DoubaoSeed3D.IDoubaoSeed3DClient, global::System.IDisposable
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public const string DefaultBaseUrl = "https://ark.cn-beijing.volces.com/api/v3";
 
@@ -41,7 +41,7 @@ namespace DoubaoSeed3D
         internal global::System.Lazy<global::System.Text.Json.Serialization.JsonSerializerContext> JsonSerializerContextProvider { get; set; } = new(() => global::DoubaoSeed3D.SourceGenerationContext.Default);
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext
         {

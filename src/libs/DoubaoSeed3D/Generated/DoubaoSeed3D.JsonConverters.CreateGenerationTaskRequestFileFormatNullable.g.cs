@@ -20,7 +20,7 @@ namespace DoubaoSeed3D.JsonConverters
                     {
                         return global::DoubaoSeed3D.CreateGenerationTaskRequestFileFormatExtensions.ToEnum(stringValue);
                     }
-                    
+
                     break;
                 }
                 case global::System.Text.Json.JsonTokenType.Number:
