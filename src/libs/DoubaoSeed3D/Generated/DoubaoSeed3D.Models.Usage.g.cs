@@ -4,12 +4,12 @@
 namespace DoubaoSeed3D
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class Usage
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("total_tokens")]
         public long? TotalTokens { get; set; }

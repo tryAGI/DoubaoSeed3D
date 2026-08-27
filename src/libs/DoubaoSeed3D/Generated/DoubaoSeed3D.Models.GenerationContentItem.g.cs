@@ -4,7 +4,7 @@
 namespace DoubaoSeed3D
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class GenerationContentItem
     {
@@ -16,13 +16,13 @@ namespace DoubaoSeed3D
         public required string Type { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("image_url")]
         public string? ImageUrl { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("text")]
         public string? Text { get; set; }

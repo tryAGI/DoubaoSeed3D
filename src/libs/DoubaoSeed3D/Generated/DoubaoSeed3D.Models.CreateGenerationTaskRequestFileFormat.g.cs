@@ -10,23 +10,23 @@ namespace DoubaoSeed3D
     public enum CreateGenerationTaskRequestFileFormat
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Fbx,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Glb,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Obj,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Stl,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Usdz,
     }

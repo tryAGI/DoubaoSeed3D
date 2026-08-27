@@ -9,15 +9,15 @@ namespace DoubaoSeed3D
     public enum CreateGenerationTaskRequestSubdivisionLevel
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         High,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Low,
         /// <summary>
-        /// 
+        ///
         /// </summary>
         Medium,
     }

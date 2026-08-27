@@ -4,7 +4,7 @@
 namespace DoubaoSeed3D
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public sealed partial class CreateGenerationTaskRequest
     {
@@ -18,7 +18,7 @@ namespace DoubaoSeed3D
         public required string Model { get; set; } = "doubao-seed3d-1-0-250928";
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("content")]
         [global::System.Text.Json.Serialization.JsonRequired]
@@ -40,7 +40,7 @@ namespace DoubaoSeed3D
         public global::DoubaoSeed3D.CreateGenerationTaskRequestFileFormat? FileFormat { get; set; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         [global::System.Text.Json.Serialization.JsonPropertyName("seed")]
         public long? Seed { get; set; }
