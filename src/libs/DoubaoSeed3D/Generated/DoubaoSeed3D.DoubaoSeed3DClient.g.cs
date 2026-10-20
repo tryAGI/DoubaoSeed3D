@@ -38,14 +38,14 @@ namespace DoubaoSeed3D
         /// <inheritdoc/>
         public global::DoubaoSeed3D.AutoSDKClientOptions Options { get; }
 
-        internal global::System.Lazy<global::System.Text.Json.Serialization.JsonSerializerContext> JsonSerializerContextProvider { get; set; } = new(() => global::DoubaoSeed3D.SourceGenerationContext.Default);
+        internal global::System.Lazy<global::System.Text.Json.Serialization.JsonSerializerContext>? JsonSerializerContextProvider { get; set; }
 
         /// <summary>
         ///
         /// </summary>
         public global::System.Text.Json.Serialization.JsonSerializerContext JsonSerializerContext
         {
-            get => JsonSerializerContextProvider.Value;
+            get => JsonSerializerContextProvider?.Value ?? global::DoubaoSeed3D.SourceGenerationContext.Default;
             set => JsonSerializerContextProvider = new(() => value);
         }
 
